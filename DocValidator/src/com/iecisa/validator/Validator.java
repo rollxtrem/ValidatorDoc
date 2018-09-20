@@ -39,7 +39,18 @@ public class Validator {
     }
     **/
 
-    public int validacion(String path, List<String> palabra) throws Exception {
+    /**
+     * Metodo que realiza la validacion del documento, donde se recibe el path del archivo a validar
+     * y el listado de frases que son usadas para comprobar si el documento contiene estas frases y asi
+     * validar el documento.
+     * La validacion la realiza convirtiendo el archivo a imagen en blanco y negro
+     * luego extrae mediante OCR el texto y realiza la busqueda de las fraces en el texto extraido
+     * @param path
+     * @param frases
+     * @return Porcentaje de la busqueda
+     * @throws Exception 
+     */
+    public int validacion(String path, List<String> frases) throws Exception {
         String info = new File("").getAbsolutePath() + System.getProperty("file.separator");
         try {
             String destinationDir = System.getProperty("java.io.tmpdir");
@@ -98,17 +109,17 @@ public class Validator {
             }
             if (result.toString().trim().equals("")) {
                 return 0;
-            } else if (palabra == null || palabra.size() < 1) {
+            } else if (frases == null || frases.size() < 1) {
                 return 100;
             } else {
                 int respuesta = 0;
-                for (String o : palabra) {
+                for (String o : frases) {
                     respuesta = respuesta + porcentajeBusqueda(result.toString(), o);
                 }
                 if (respuesta == 0) {
                     return 10;
                 } else {
-                    return respuesta / palabra.size();
+                    return respuesta / frases.size();
                 }
             }
         } catch (Exception e) {
@@ -117,6 +128,13 @@ public class Validator {
         }
     }
 
+    /**
+     * Metodo que realiza una busqueda dentro de un texto, donde realiza la 
+     * transformacion de los caracteres como tildes y acentos a caracteres del alfabeto.
+     * @param texto
+     * @param busqueda
+     * @return Porcentaje de la busqueda
+     */
     public int porcentajeBusqueda(String texto, String busqueda) {
         texto = ElimCaracteres.CHANGE_CARACTERES_INVALIDOS(texto);
         busqueda = ElimCaracteres.CHANGE_CARACTERES_INVALIDOS(busqueda);
@@ -133,6 +151,11 @@ public class Validator {
         return (i * 100) / items.size();
     }
 
+    /**
+     * Metodo que transforma la imagen a B/N para resaltar el texto
+     * @param f
+     * @return 
+     */
     public BufferedImage set_Blanco_y_Negro(BufferedImage f) {
         BufferedImage bn = new BufferedImage(f.getWidth(), f.getHeight(), BufferedImage.TYPE_BYTE_BINARY);
         //se traspasan los colores Pixel a Pixel
