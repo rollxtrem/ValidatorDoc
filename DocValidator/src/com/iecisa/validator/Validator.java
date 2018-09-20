@@ -4,17 +4,13 @@
  */
 package com.iecisa.validator;
 
-import com.test.TesseractExample;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import net.sourceforge.tess4j.Tesseract;
-import net.sourceforge.tess4j.TesseractException;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -148,7 +144,7 @@ public class Validator {
                 i++;
             }
         }
-        return (i * 100) / items.size();
+        return (i * 90) / items.size();
     }
 
     /**
